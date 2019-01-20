@@ -22,10 +22,14 @@ def read_alipay_file(file_name, data_list):
         elif re.search('--------------------------', row[0]) and start:
             break
         if start:
+            try:
+                date = time.strptime(row[2].strip(), "%Y-%m-%d %H:%M:%S")
+            except:
+                date = time.strptime(row[2].strip(), "%Y/%m/%d %H:%M")
             data = {
                 "pay_num": float(row[9]),
                 "pay_type": '',
-                "pay_time": time.strptime(row[2], "%Y/%m/%d %H:%M"),
+                "pay_time": date,
                 "pay_object": row[7].strip(),
                 'id': row[0]
             }

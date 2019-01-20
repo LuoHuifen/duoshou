@@ -1,13 +1,13 @@
-# ��һ����һ����˶��ٴ���
-д���ű�ͳ��΢�ź�֧�������˵��������Լ�һ����˶��ٴ���
-## �˵�׼��
-��ȥ[֧������ҳ��](https://consumeprod.alipay.com/record/advanced.htm)�����Զ���ʱ��������һ���֧�����˵���      
-΢�ŵ��˵��Ƚ��鷳��Ҫȥ֧��>Ǯ��>�˵����浼����һ��ֻ�ܵ���3���£�һ����˵���Ҫ��4�ε�����    
-֧�������˵�Ĭ����gbk���룬��Ҫ����Ϊcsv utf-8����    
-������Щcsv�ļ��ŵ������Ŀ��csv�ļ���    
+# 算一下你一年剁了多少次手
+写个脚本统计微信和支付宝的账单，看看自己一年剁了多少次手
+## 账单准备
+先去[支付宝网页版](https://consumeprod.alipay.com/record/advanced.htm)，按自定义时间下载你一年的支付宝账单。      
+微信的账单比较麻烦，要去支付>钱包>账单里面导出，一次只能导出3个月，一年的账单需要分4次导出。    
+支付宝的账单默认是gbk编码，需要另存为csv utf-8编码    
+最后把这些csv文件放到这个项目的csv文件夹    
 
-## ����config
-�޸�config.py������ļ���Ϊ����˵��ļ���,���£�
+## 配置config
+修改config.py里面的文件名为你的账单文件名,如下：
 ```python
 alipay_list = ["alipay.csv"]
 wechatpay_list = [
@@ -17,39 +17,39 @@ wechatpay_list = [
     "wechat20181001-20190101.csv",
 ]
 ```
-## ʹ��
-ִ�нű����߼���main.py
+## 使用
+执行脚本主逻辑在main.py
 ```python
 if __name__ == '__main__':
-    # ��ʼ��һ������ļ��Ļ���
-    # Ĭ�ϰѽ��д��result/result.txt
-    # �������file_init('a.txt')�ı�����ļ���
+    # 初始化一下输出文件的环境
+    # 默认把结果写到result/result.txt
+    # 你可以用file_init('a.txt')改变输出文件名
     file_init()
-    # ��ȡconfig���õ�csv�ļ�
+    # 读取config配置的csv文件
     read_file(data_list)
-    # �򵥵�ͳ��
+    # 简单的统计
     count(data_list)
-    # ͳ��50~100�����Ѻ�����
+    # 统计50~100的消费和收入
     select_cost_between(50, 100, data_list)
-    # ֻͳ��50~100������
+    # 只统计50~100的消费
     select_cost_between(50, 100, data_list, pay_only=True)
-    # ͳ����ĳЩ�̼��ϵ�����
-    spend_on_seller('����ô', data_list)
+    # 统计在某些商家上的消费
+    spend_on_seller('饿了么', data_list)
     spend_on_seller('Apple', data_list)
-    spend_on_seller('����', data_list)
+    spend_on_seller('麦当劳', data_list)
     spend_on_seller('KFC', data_list)
-    spend_on_seller('����ʿ', data_list)
-    # ͳ����һ�귢�˶��ٺ��
-    spend_on_seller('΢�ź��', data_list)
-    # ����֧���������ͳ�ƣ���С������������Ϊ���������Ϊ����
+    spend_on_seller('华莱士', data_list)
+    # 统计你一年发了多少红包
+    spend_on_seller('微信红包', data_list)
+    # 按照支付对象分类统计，从小到大排序，正数为输出，负数为收入
     group_by_seller(data_list)
 ```
 
-## ���ֽ��չʾ
+## 部分结果展示
 ```text
-֧���� 24416.61 
-�ջأ� 4198.99 
-ʵ��֧���� 20217.62 
+支出： 24416.61 
+收回： 4198.99 
+实际支出： 20217.62 
  
 ('2018 01', 1451.58) 
 ('2018 02', 607.45) 
@@ -70,13 +70,13 @@ if __name__ == '__main__':
 2018-08-12 15:21:18 Apple 42.0 
 2018-08-12 08:56:39 Apple 30.0 
 2018-11-15 16:32:05 Apple 30.0 
-Apple �������ѣ� 162.0 
+Apple 的总消费： 162.0 
 ```
-��֪����ԭ���Ѿ���ipad�ļ�Ʒ�ɳ������������162����    
-�ӵ�Ǯ����ȥ�����ƽ��4��19��Ԫ��ж���α�ƽ����������һ���Ը������������ʵ�ݡ�
+不知不觉原来已经在ipad的极品飞车手游里面氪了162……    
+加点钱够我去买个地平线4，19年元旦卸手游保平安，单机的一次性付款才是真正的实惠。
 
-## ����
-��ֻ���õ��Լ����˵���Ϣ���޷�֪���̼ҵ���Ϣ����������֧��������˵���������ڳ������滨�˶���Ǯ���·��ϻ��˶���Ǯ����ʳ�ϻ��˶���Ǯ�ȵȵ�ͳ���޷�ʵ�֡�     
-��Ϊ΢�ź�֧�������˵���ʽ�в�ͬ������ͳ�Ƶ�ʱ��ֻ����һЩ���е��ֶΡ�    
-��������֪ʶ�������кܶ�򵥵Ĺ���ûд����ӭ��issue��
+## 不足
+我只能拿到自己的账单信息，无法知道商家的信息，所以类似支付宝年度账单里面的你在出行里面花了多少钱，衣服上花了多少钱，饮食上花了多少钱等等的统计无法实现。     
+因为微信和支付宝的账单格式有不同，所以统计的时候只能拿一些共有的字段。    
+个人理财知识淡薄，有很多简单的功能没写，欢迎提issue。
 
